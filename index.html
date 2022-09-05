@@ -1,0 +1,84 @@
+<style>
+  body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+  }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  .tooltiptext {
+    visibility: hidden;
+    width: 90px;
+    background-color: #555555;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+
+  .btn:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+</style>
+
+<body>
+
+  <div id="btnsDelegation">
+
+    <div>錢包名稱</div>
+    <span id="a1">123abc...xyz987</span>
+    <div class="tooltip">
+      <button id="btn1" class="btn">
+        <span class="tooltiptext" id="toolText1">Copy address</span>
+        Copy
+      </button>
+    </div><br />
+
+    <div>ETH錢包</div>
+    <span id="a2">0xdef...abc123</span>
+    <div class="tooltip">
+      <button id="btn2" class="btn">
+        <span class="tooltiptext" id="toolText2">Copy address</span>
+        Copy
+      </button>
+    </div><br />
+
+  </div>
+
+  <script>
+
+    document.getElementById("btnsDelegation").addEventListener('mousedown', function (e) {
+      if (e.target.className == 'btn') {
+        var eID = e.target.id;
+        var aID = 'a' + eID.substring(3);
+        var toolID = 'toolText' + eID.substring(3);
+
+        var inrText = document.getElementById(aID).innerHTML;
+        navigator.clipboard.writeText(inrText);
+
+        document.getElementById(toolID).innerHTML = "Copied";
+
+        window.addEventListener('mouseout', outFunc);
+
+        function outFunc() {
+          window.removeEventListener('mouseout', outFunc);
+
+          document.getElementById(toolID).innerHTML = "Copy address";
+        }
+      }
+    });
+
+  </script>
+
+</body>
